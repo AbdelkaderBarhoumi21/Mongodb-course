@@ -1,4 +1,4 @@
-db.users.insertMany([
+[
   {
     "name": "John Doe",
     "age": 32,
@@ -130,5 +130,6 @@ db.users.insertMany([
       { "product_name": "AirPods Pro", "brand": "Apple" }
     ]
   }
-  // … Continue jusqu'à 25 docs
-])
+]
+
+
