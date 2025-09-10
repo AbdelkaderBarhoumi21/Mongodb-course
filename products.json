@@ -1,0 +1,52 @@
+[
+  {
+    "name": "iPhone 15",
+    "price": 999,
+    "description": "Apple smartphone avec écran Super Retina XDR et puce A16 Bionic."
+  },
+  {
+    "name": "Samsung Galaxy S23",
+    "price": 899,
+    "description": "Smartphone Android haut de gamme avec triple caméra et écran AMOLED."
+  },
+  {
+    "name": "Sony WH-1000XM5",
+    "price": 399,
+    "description": "Casque sans fil à réduction de bruit active avec autonomie de 30 heures."
+  },
+  {
+    "name": "Dell XPS 13",
+    "price": 1299,
+    "description": "Ordinateur portable ultrafin avec processeur Intel Core i7 et écran InfinityEdge."
+  },
+  {
+    "name": "Apple Watch Series 9",
+    "price": 449,
+    "description": "Montre connectée avec suivi santé, GPS intégré et résistance à l’eau."
+  },
+  {
+    "name": "PlayStation 5",
+    "price": 499,
+    "description": "Console de jeux nouvelle génération avec SSD ultra rapide et ray tracing."
+  },
+  {
+    "name": "Xbox Series X",
+    "price": 499,
+    "description": "Console de jeu Microsoft 4K avec 1 To de stockage et lecteur Blu-Ray."
+  },
+  {
+    "name": "GoPro Hero 11",
+    "price": 499,
+    "description": "Caméra d’action 5K avec stabilisation avancée et mode nuit amélioré."
+  },
+  {
+    "name": "Kindle Paperwhite",
+    "price": 139,
+    "description": "Liseuse avec écran e-ink 6,8 pouces, éclairage réglable et autonomie prolongée."
+  },
+  {
+    "name": "MacBook Air M2",
+    "price": 1199,
+    "description": "Laptop Apple léger avec puce M2, autonomie jusqu’à 18 heures et écran Retina."
+  }
+]

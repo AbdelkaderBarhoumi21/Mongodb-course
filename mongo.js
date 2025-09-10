@@ -345,11 +345,139 @@ db.runCommand({collMod:'users',  validator: {
           bsonType: 'string'
         }
       },
-          additionalProperties:false
+          additionalProperties:false,
 
     }
   }
+  ,   
+  // validationLevel:'moderate',
+  // validationAction:'warn',
 
 })
 //now it success after add _id to shcema as objectid
 db.users.insertOne({name:'gad',email:'maiggl@gmail.com',address:{street:'tunis',city:'Ariana',counrty:'africa'},gender:'male'})
+//set validation level and validation action 
+//even data invalid warn will only show warn 
+//if error it will threw error and insert update will not happen
+
+
+db.runCommand({collMod:'users',  validator: {
+    $jsonSchema: {
+      bsonType: 'object',
+      required: ['name', 'email', 'address'],
+      properties: {
+        _id:{bsonType:'objectId'},
+        name: { 
+          bsonType: 'string',
+          description: 'Name is a required text field with string value'
+        },
+        email: { 
+          bsonType: 'string',
+          description: 'Email is a required text field with string value'
+        },
+        address: { 
+          bsonType: 'object',
+          description: 'Address is a required object with string fields',
+          properties: {
+            street: {
+              bsonType: 'string',
+              description: 'Street is a required text field with string value'
+            },
+            city: {
+              bsonType: 'string',
+              description: 'City is a required text field with string value'
+            },
+            country: {
+              bsonType: 'string',
+              description: 'Country is a required text field with string value'
+            }
+          }
+        },
+        gender: {
+          bsonType: 'string'
+        }
+      },
+          additionalProperties:false
+
+    }
+  },
+   validationLevel:'moderate',
+  validationAction:'warn',
+
+})
+//only update action level and action becasue we havent modifiy our fields 
+//data will inserted and warn msg will be stored in log file 
+db.runCommand
+(
+{
+  collMod:'users',  
+   validationLevel:'strict',
+  validationAction:'warn',
+}
+)
+//if error insert-update will not happen
+db.runCommand
+(
+{
+  collMod:'users',  
+   validationLevel:'strict',
+  validationAction:'error',
+}
+)
+//ordre insertion 
+db.countries.insertMany(
+  [{_id:'TN',name:'Tunisia'},
+  {_id:'ALG',name:'Algeria'},
+  {_id:'LBY',name:'LIBIYA'}]
+)
+//it will return this 
+/*
+  acknowledged: true,
+  insertedIds: {
+    '0': 'TN',
+    '1': 'ALG',
+    '2': 'LBY'
+  }
+}
+*/
+//we already have doc with same id value will not allowed because id use to identifiyt each doc 
+//error duplicate key in collection 
+//but other doc Pk  will be inserted even return error and QR will not inserted b
+//at TN line will throw error and panic because before QR there is an error in TN duplcaited key
+db.countries.insertMany(
+  [,
+  {_id:'PK',name:'Päkistan'},
+   {_id:'TN',name:'Tunisia'},
+  {_id:'QR',name:'QATAR'}]
+)
+//only doc have error shouldnt be inserted pass 2nd arg ordered : false it will not do ordre insertion inorderd insertion
+//only TN will not inserted because => duplacited key error 
+db.countries.insertMany(
+  [
+  {_id:'BAN',name:'Bangladesh'},
+   {_id:'TN',name:'Tunisia'},
+  {_id:'IN',name:'INDIA'},],{ordered:false}
+)
+//write concern primary and secondary server 
+//pass 2nd optional arg write concern => majority : all server or a number 0 1 2 ...
+
+db.products.insertOne(
+  {name:"redmi",price:899},
+  {writeConcern:
+    { w:1}
+}
+)
+//w:0 we dont wait for acknowledged 
+db.products.insertOne(
+  {name:"redmi",price:899},
+  {writeConcern:
+    { w:0}
+}
+)
+/*
+That add tools for mongo db like import export json file 
+But first add to environment path
+Move to path where you have your json file in cmd cd path 
+Then use -> mongo import filename.json -d database name -c collection name –jsonArray because our json file not single object but an array of json –drop => if that collection exists with other doc delete this collection and create again this collection with data in json file 
+C:\Users\abdel\OneDrive\Documents\mongoDB Project>mongoimport products.json -d eShopping -c products --jsonArray --drop
+*/
