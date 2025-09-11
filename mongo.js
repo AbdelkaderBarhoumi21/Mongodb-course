@@ -481,3 +481,62 @@ Move to path where you have your json file in cmd cd path
 Then use -> mongo import filename.json -d database name -c collection name –jsonArray because our json file not single object but an array of json –drop => if that collection exists with other doc delete this collection and create again this collection with data in json file 
 C:\Users\abdel\OneDrive\Documents\mongoDB Project>mongoimport products.json -d eShopping -c products --jsonArray --drop
 */
+//comparsion operator 
+db.products.find({ratings:8.2})
+//$eq eqaul operator 
+db.products.find({ratings: {$eq:8.2}})
+//$ne=> all doc not eqaul to 8.2 ----- count() to get count of number of doc with this filtering
+db.products.find({ratings: {$ne:8.2}}).count()
+//$gt all doc greater then 8.2
+db.products.find({ratings: {$gt:8.2}})
+//$gte=> greather then equal to 8.2
+db.products.find({ratings: {$gte:8.2}})
+//$lt less then 8.2
+db.products.find({ratings: {$lt:8.2}})
+//$lt less then eqaul to 8.2
+db.products.find({ratings: {$lte:8.2}})
+//$in all prorducts is cateogry is mobile or laptop
+db.products.find({category: {$in:['laptop','mobile']}})
+//$nin all prorducts is cateogry is not contain mobile or laptop
+db.products.find({category: {$nin:['laptop','mobile']}})
+db.products.find({category: {$nin:['laptop','mobile']}}).count() // 15 doc doesnt contains laptop or mobile
+
+///logical operator and nor xor not 
+//or operator 
+db.products.find({ $or:[{ratings:{$gte:9}},{category:'laptop'}]})
+//nor operator 
+db.products.find({ $nor:[{ratings:{$gte:9}},{category:'laptop'}]})
+//not operator =>reverse result
+db.products.find({price:{ $not:{$gte:199}}})
+//and operator 
+//and operator == db.products.find({ratings:{$gte:9}},{category:'laptop'})
+db.products.find({ $and:[{ratings:{$gte:9}},{category:'laptop'}]})
+//using 2 logical operator and 1 comparison operator
+db.products.find({$and:[{price:{$gt:1500}},{$or:[{category :'mobile'},{category:'laptop'}]}]})
+//element operator check doc fields
+//check if price field exists in doc and return all doc with price field exists 
+db.products.find({price:{$exists:true}}) //exits =>true
+db.products.find({price:{$exists:false}}) //not exists  => false 
+//$type operator => check if a field store a bson type then return doc match with this conditon
+db.products.find({price:{$type:'number'}}) 
+db.products.find({available:{$type:'string'}}) 
+//Evaluation operator 
+//$mod price/5=0 => all doc that price that divied by 5 reminder will be 0 
+db.products.find({price:{$mod:[5,0]}}) 
+//$regex all doc that name contains xbox 
+db.products.find({name:{$regex:/Xbox/}})
+//$regex all doc that name contains xbox /i make case insensitive uppercase or lowercase 
+db.products.find({name:{$regex:/xbox/i}})
+//$regex all doc that name start with xbox 
+db.products.find({name:{$regex:/^xbox/i}})
+//$regex all doc that name ends with xbox 
+db.products.find({name:{$regex:/xbox$/i}})
+//$expr
+//if result subtraction is greater then 100 if return doc filter all doc match result >100
+db.products.find({$expr:{
+  $gt:
+  [
+    {$subtract:["$price","$discount"]},
+    1000
+  ]
+}})
